@@ -1,14 +1,18 @@
 import { Loading } from '@/components/Loading';
 import type { LoaderDefaultOptions } from '@/utils/loader/types';
 
-const title = 'React PWA';
+const title = 'Shawn Stewart';
 
-const email = 'author@email.com';
+const email = 's.stewart0220@gmail.com';
 
-const repository = 'https://github.com/ShawnStewart/react-pwa';
+const linkedInUrl = 'https://www.linkedin.com/in/shawn-stewart/';
+
+const githubUrl = 'https://github.com/ShawnStewart';
+const repository = `${githubUrl}/website`;
+const reactPwaRepository = `${githubUrl}/react-pwa`;
 
 const messages = {
-  404: 'Hey bro, what are you looking for?',
+  404: 'Whatcha looking for?',
   app: {
     crash: {
       description: 'You can report the issue or restart the application.',
@@ -47,8 +51,11 @@ export {
   defaultMetaTags,
   email,
   giphy404,
+  githubUrl,
+  linkedInUrl,
   loaderDefaultOptions,
   messages,
+  reactPwaRepository,
   repository,
   title,
 };

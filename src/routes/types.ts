@@ -4,11 +4,8 @@ import type { PathRouteProps } from 'react-router-dom';
 import type { ComponentTypeAny } from '@/utils/loader/types';
 
 export enum Pages {
-  Welcome,
-  Page1,
-  Page2,
-  Page3,
-  Page4,
+  Portfolio,
+  ReactPWA,
   NotFound,
 }
 

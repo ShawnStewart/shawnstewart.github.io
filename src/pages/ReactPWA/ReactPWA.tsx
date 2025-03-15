@@ -4,7 +4,7 @@ import { HeadingLevel, Typography } from '@/components/ui/typography';
 
 import { TechCards } from './TechCards';
 
-export function Welcome() {
+export function ReactPWA() {
   return (
     <PageContentWrapper className="flex flex-col justify-center text-center">
       <Meta title="Welcome" />

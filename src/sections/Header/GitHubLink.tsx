@@ -1,12 +1,15 @@
 import { GitHubLogoIcon } from '@radix-ui/react-icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { buttonVariants } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { repository } from '@/config';
+import { reactPwaRepository, repository } from '@/config';
 import { cn } from '@/lib/utils';
 
 export function GitHubLink() {
+  const { pathname } = useLocation();
+  const githubUrl = pathname === '/react-pwa' ? reactPwaRepository : repository;
+
   return (
     <Tooltip>
       <TooltipTrigger asChild>
@@ -20,7 +23,7 @@ export function GitHubLink() {
             }),
           )}
           target="_blank"
-          to={repository}
+          to={githubUrl}
         >
           <GitHubLogoIcon />
         </Link>
