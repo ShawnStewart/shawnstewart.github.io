@@ -1,0 +1,1 @@
+export { AppErrorBoundaryFallback } from './App';
