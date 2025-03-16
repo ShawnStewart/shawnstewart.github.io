@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "description": "Starter kit for modern web applications",
-  "homepage": "https://react-pwa-rosy.vercel.app/",
+  "homepage": "https://shawnstew.art/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ShawnStewart/react-pwa"
+    "url": "https://github.com/ShawnStewart/shawnstewart.github.io"
   },
   "bugs": {
-    "url": "https://github.com/ShawnStewart/react-pwa/issues"
+    "url": "https://github.com/ShawnStewart/shawnstewart.github.io/issues"
   },
   "license": "MIT",
   "scripts": {

@@ -8,7 +8,7 @@ const email = 's.stewart0220@gmail.com';
 const linkedInUrl = 'https://www.linkedin.com/in/shawn-stewart/';
 
 const githubUrl = 'https://github.com/ShawnStewart';
-const repository = `${githubUrl}/website`;
+const repository = `${githubUrl}/shawnstewart.github.io`;
 const reactPwaRepository = `${githubUrl}/react-pwa`;
 
 const messages = {

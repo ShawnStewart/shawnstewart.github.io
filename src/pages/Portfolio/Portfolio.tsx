@@ -54,7 +54,7 @@ export function Portfolio() {
         <WorkHistory />
 
         <section className="z-[7] -mt-6 flex flex-grow flex-col justify-between bg-stone-200 pt-16 text-center dark:bg-gray-700">
-          <div className="mb-16">
+          <div className="container mb-16">
             <Typography className="mb-4" variant="heading">
               Tell me about your next project
             </Typography>
