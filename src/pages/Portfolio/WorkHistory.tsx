@@ -21,9 +21,9 @@ const logos: HTMLProps<HTMLImageElement>[] = [
 
 export function WorkHistory() {
   return (
-    <section className="container z-[8] -mt-6 rounded-b-3xl bg-background bg-white pb-12 pt-16 text-center dark:text-black">
+    <div>
       <Typography variant="heading">Work history</Typography>
-      <div className="relative overflow-y-hidden overflow-x-scroll px-4 py-4 md:flex md:justify-center">
+      <div className="relative mx-8 overflow-y-hidden overflow-x-scroll py-4 md:flex md:justify-center">
         <div className="relative flex w-max items-center gap-x-12">
           {logos.map(({ alt, className, ...props }) => (
             <img
@@ -35,6 +35,6 @@ export function WorkHistory() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

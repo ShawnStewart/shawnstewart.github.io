@@ -51,7 +51,9 @@ export function Portfolio() {
       </section>
 
       <HeadingLevel>
-        <WorkHistory />
+        <section className="z-[8] -mt-6 rounded-b-3xl bg-background bg-white pb-12 pt-16 text-center dark:text-black">
+          <WorkHistory />
+        </section>
 
         <section className="z-[7] -mt-6 flex flex-grow flex-col justify-between bg-stone-200 pt-16 text-center dark:bg-gray-700">
           <div className="container mb-16">
