@@ -224,7 +224,7 @@ function SkillsSection() {
   );
 }
 
-const dominosLogoClassName = 'max-h-16 -mx-2';
+const dominosLogoClassName = 'max-h-16 -mx-4';
 
 const logos: HTMLProps<HTMLImageElement>[] = [
   {
@@ -259,7 +259,7 @@ function WorkHistorySection() {
           </motion.div>
 
           <motion.div
-            className="inline-flex flex-wrap items-center justify-center gap-x-8 rounded-3xl bg-white/80 p-4 shadow-xl backdrop-blur-sm dark:bg-gray-900/80"
+            className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-4 rounded-3xl bg-white/80 px-4 py-8 shadow-xl backdrop-blur-sm dark:bg-gray-900/80"
             variants={fadeInUp}
           >
             {logos.map(({ alt, href, className, ...props }) => (
