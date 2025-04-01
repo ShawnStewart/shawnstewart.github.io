@@ -5,6 +5,12 @@ import { ArrowDown, BellDot, Brain, Mail, Rocket, Sparkles, Terminal, User } fro
 import type { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
 
+import bloomTechLogo from '@/../public/logos/bloom_tech_logo.png';
+import dominosLogo from '@/../public/logos/dominos_logo.svg';
+import eventbriteLogo from '@/../public/logos/eventbrite_logo.svg';
+import quarkworksLogo from '@/../public/logos/quarkworks_logo.svg';
+import saasGridLogo from '@/../public/logos/saasgrid_logo.svg';
+import tryNowLogo from '@/../public/logos/trynow_logo.svg';
 import { Meta } from '@/components/Meta';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -13,13 +19,6 @@ import { email, githubUrl, linkedInUrl } from '@/config';
 import { useToast } from '@/hooks/useToast';
 import { cn } from '@/lib/utils';
 import { getRandomJoke } from '@/sections/Header/utils';
-
-import bloomTechLogo from '../Portfolio/logos/bloom_tech_logo.png';
-import dominosLogo from '../Portfolio/logos/dominos_logo.svg';
-import eventbriteLogo from '../Portfolio/logos/eventbrite_logo.svg';
-import quarkworksLogo from '../Portfolio/logos/quarkworks_logo.svg';
-import saasGridLogo from '../Portfolio/logos/saasgrid_logo.svg';
-import tryNowLogo from '../Portfolio/logos/trynow_logo.svg';
 
 const fadeInUp = {
   animate: { opacity: 1, transition: { delay: 0.3, duration: 0.3 }, y: 0 },
@@ -224,7 +223,7 @@ function SkillsSection() {
   );
 }
 
-const dominosLogoClassName = 'max-h-16 -mx-4';
+const dominosLogoClassName = 'max-h-16 -mx-8 animate-bounce';
 
 const logos: HTMLProps<HTMLImageElement>[] = [
   {
@@ -259,7 +258,7 @@ function WorkHistorySection() {
           </motion.div>
 
           <motion.div
-            className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-4 rounded-3xl bg-white/80 px-4 py-8 shadow-xl backdrop-blur-sm dark:bg-gray-900/80"
+            className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-4 rounded-3xl bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:bg-gray-50/80"
             variants={fadeInUp}
           >
             {logos.map(({ alt, href, className, ...props }) => (
