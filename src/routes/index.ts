@@ -1,4 +1,4 @@
-import { GearIcon, PersonIcon } from '@radix-ui/react-icons';
+import { GearIcon } from '@radix-ui/react-icons';
 import { Sparkles } from 'lucide-react';
 
 import { asyncComponentLoader } from '@/utils/loader';
@@ -11,17 +11,9 @@ export const routes: Routes = {
     component: asyncComponentLoader({
       loadComponentAsync: () => import('@/pages/Portfolio'),
     }),
-    icon: PersonIcon,
+    icon: Sparkles,
     path: '/',
     title: 'Portfolio',
-  },
-  [Pages.NewPortfolio]: {
-    component: asyncComponentLoader({
-      loadComponentAsync: () => import('@/pages/NewPortfolio'),
-    }),
-    icon: Sparkles,
-    path: '/new-portfolio',
-    title: 'New Portfolio',
   },
   [Pages.ReactPWA]: {
     component: asyncComponentLoader({

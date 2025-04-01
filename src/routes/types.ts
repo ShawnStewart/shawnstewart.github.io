@@ -6,7 +6,6 @@ import type { ComponentTypeAny } from '@/utils/loader/types';
 
 export enum Pages {
   Portfolio,
-  NewPortfolio,
   ReactPWA,
   NotFound,
 }
