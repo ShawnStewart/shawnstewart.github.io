@@ -224,13 +224,20 @@ function SkillsSection() {
   );
 }
 
+const dominosLogoClassName = 'max-h-16 -mx-2';
+
 const logos: HTMLProps<HTMLImageElement>[] = [
-  { alt: "Domino's Pizza", className: 'max-w-20 px-2', src: dominosLogo },
-  { alt: 'SaaSGrid', className: 'max-w-20', src: saasGridLogo },
-  { alt: 'TryNow', className: 'max-w-20', src: tryNowLogo },
-  { alt: 'Eventbrite', className: 'max-w-20', src: eventbriteLogo },
-  { alt: 'QuarkWorks', className: 'max-w-20', src: quarkworksLogo },
-  { alt: 'BloomTech', className: 'max-w-20', src: bloomTechLogo },
+  {
+    alt: "Domino's Pizza",
+    className: dominosLogoClassName,
+    href: 'https://www.dominos.com/',
+    src: dominosLogo,
+  },
+  { alt: 'SaaSGrid', href: 'https://www.saasgrid.com/', src: saasGridLogo },
+  { alt: 'TryNow', href: 'https://www.trynow.com/', src: tryNowLogo },
+  { alt: 'Eventbrite', href: 'https://www.eventbrite.com/', src: eventbriteLogo },
+  { alt: 'QuarkWorks', href: 'https://quarkworks.co/', src: quarkworksLogo },
+  { alt: 'BloomTech', href: 'https://www.bloomtech.com/', src: bloomTechLogo },
 ];
 
 function WorkHistorySection() {
@@ -252,37 +259,18 @@ function WorkHistorySection() {
           </motion.div>
 
           <motion.div
-            className="relative overflow-hidden rounded-3xl bg-white/80 p-8 shadow-xl backdrop-blur-sm dark:bg-gray-900/80"
+            className="inline-flex flex-wrap items-center justify-center gap-x-8 rounded-3xl bg-white/80 p-4 shadow-xl backdrop-blur-sm dark:bg-gray-900/80"
             variants={fadeInUp}
           >
-            <motion.div
-              // animate={{
-              //   x: [0, '-50%'],
-              // }}
-              className="flex items-center gap-12"
-              transition={{
-                duration: 2,
-                ease: 'linear',
-                repeat: Infinity,
-              }}
-            >
-              {logos.map(({ alt, className, ...props }) => (
+            {logos.map(({ alt, href, className, ...props }) => (
+              <a href={href} key={`first-${alt}`} rel="noreferrer" target="_blank">
                 <img
-                  key={`first-${alt}`}
                   {...props}
                   alt={alt}
-                  className={cn('w-20 max-w-20', className)}
+                  className={cn('w-32 max-w-32 transition-all hover:scale-125', className)}
                 />
-              ))}
-              {logos.map(({ alt, className, ...props }) => (
-                <img
-                  key={`second-${alt}`}
-                  {...props}
-                  alt={alt}
-                  className={cn('w-20 max-w-20', className)}
-                />
-              ))}
-            </motion.div>
+              </a>
+            ))}
           </motion.div>
         </motion.div>
       </div>
