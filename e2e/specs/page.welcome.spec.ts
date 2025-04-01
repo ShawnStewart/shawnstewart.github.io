@@ -3,7 +3,7 @@ import { expect, test as baseTest } from '@e2e/test-override';
 
 const test = baseTest.extend<{ welcomePage: WelcomePage }>({
   welcomePage: async ({ page }, runTest) => {
-    const welcomePage = new WelcomePage({ page });
+    const welcomePage = new WelcomePage({ page, url: '/react-pwa' });
     await welcomePage.open();
     await runTest(welcomePage);
   },
