@@ -1,8 +1,8 @@
 {
-  "name": "react-pwa",
+  "name": "shawnstew.art",
   "version": "1.0.0",
   "type": "module",
-  "description": "Starter kit for modern web applications",
+  "description": "My personal portfolio website",
   "homepage": "https://shawnstew.art/",
   "repository": {
     "type": "git",
