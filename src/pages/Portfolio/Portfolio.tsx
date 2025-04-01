@@ -1,7 +1,7 @@
 import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons';
-import type { Variants } from 'framer-motion';
-import { motion } from 'framer-motion';
 import { ArrowDown, BellDot, Brain, Mail, Rocket, Sparkles, Terminal, User } from 'lucide-react';
+import type { Variants } from 'motion/react';
+import { motion } from 'motion/react';
 import type { HTMLProps } from 'react';
 import { Link } from 'react-router-dom';
 
