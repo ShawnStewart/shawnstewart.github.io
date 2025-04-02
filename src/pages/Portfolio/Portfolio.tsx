@@ -223,7 +223,7 @@ function SkillsSection() {
   );
 }
 
-const dominosLogoClassName = 'max-h-16 -mx-8 animate-bounce';
+const dominosLogoClassName = 'max-h-16 animate-bounce';
 
 const logos: HTMLProps<HTMLImageElement>[] = [
   {
