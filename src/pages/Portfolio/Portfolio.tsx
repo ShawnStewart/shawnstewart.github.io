@@ -1,5 +1,5 @@
 import { GitHubLogoIcon, LinkedInLogoIcon } from '@radix-ui/react-icons';
-import { ArrowDown, BellDot, Brain, Mail, Rocket, Sparkles, Terminal, User } from 'lucide-react';
+import { ArrowDown, BellDot, Brain, Mail, Rocket, Sparkles, Terminal } from 'lucide-react';
 import type { Variants } from 'motion/react';
 import { motion } from 'motion/react';
 import type { HTMLProps } from 'react';
@@ -130,7 +130,13 @@ function HeroSection() {
                 initial={{ scale: 0 }}
                 transition={{ duration: 0.5, type: 'spring' }}
               >
-                <User className="mx-auto my-4 size-20 rounded-full border-4 border-black md:size-40 md:border-8 dark:border-white" />
+                <div className="mx-auto my-4 max-w-48 rounded-full border-2 border-purple-600 shadow-lg xl:max-w-80">
+                  <img
+                    alt="My beautiful face"
+                    className="rounded-full border-4 border-blue-400 bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:bg-gradient-to-br dark:from-gray-800 dark:via-gray-700 dark:to-gray-600"
+                    src="./head.png"
+                  />
+                </div>
               </motion.div>
               <span className="block text-4xl text-gray-700 dark:text-gray-300">
                 Software Engineer at{' '}

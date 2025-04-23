@@ -1,7 +1,7 @@
 {
-  "name": "React PWA",
-  "short_name": "reactpwa",
-  "description": "Starter kit for modern web applications",
+  "name": "Shawn Stewart's Portfolio",
+  "short_name": "Shawn Stewart",
+  "description": "My slice of the internet.",
   "theme_color": "#ffffff",
   "icons": [
     {

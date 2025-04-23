@@ -7,7 +7,7 @@ import { TechCards } from './TechCards';
 export function ReactPWA() {
   return (
     <PageContentWrapper className="flex flex-col justify-center text-center">
-      <Meta title="Welcome" />
+      <Meta title="React PWA Template" />
       <Typography className="mt-8" variant="heading">
         Build a modern web application
       </Typography>
