@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { routes } from '@/routes';
+import { routes } from '@/routes/routes';
 
 interface NavigationMenuProps {
   onNavigationSelect: () => void;

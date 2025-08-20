@@ -1,13 +1,11 @@
-import { GearIcon } from '@radix-ui/react-icons';
-import { Sparkles } from 'lucide-react';
+import { Hammer, Sparkles } from 'lucide-react';
 
 import { asyncComponentLoader } from '@/utils/loader';
 
 import type { Routes } from './types';
-import { Pages } from './types';
 
-export const routes: Routes = {
-  [Pages.Portfolio]: {
+export const routes: Routes = [
+  {
     component: asyncComponentLoader({
       loadComponentAsync: () => import('@/pages/Portfolio'),
     }),
@@ -15,18 +13,18 @@ export const routes: Routes = {
     path: '/',
     title: 'Portfolio',
   },
-  [Pages.ReactPWA]: {
+  {
     component: asyncComponentLoader({
       loadComponentAsync: () => import('@/pages/ReactPWA'),
     }),
-    icon: GearIcon,
+    icon: Hammer,
     path: '/react-pwa',
-    title: 'React PWA',
+    title: 'This template',
   },
-  [Pages.NotFound]: {
+  {
     component: asyncComponentLoader({
       loadComponentAsync: () => import('@/pages/NotFound'),
     }),
     path: '*',
   },
-};
+];
