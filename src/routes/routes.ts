@@ -1,4 +1,4 @@
-import { Hammer, Sparkles } from 'lucide-react';
+import { Grid, Hammer, Sparkles } from 'lucide-react';
 
 import { asyncComponentLoader } from '@/utils/loader';
 
@@ -12,6 +12,14 @@ export const routes: Routes = [
     icon: Sparkles,
     path: '/',
     title: 'Portfolio',
+  },
+  {
+    component: asyncComponentLoader({
+      loadComponentAsync: () => import('@/pages/Sudoku'),
+    }),
+    icon: Grid,
+    path: '/sudoku',
+    title: 'Sudoku',
   },
   {
     component: asyncComponentLoader({
