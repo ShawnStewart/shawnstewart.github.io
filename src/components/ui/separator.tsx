@@ -10,8 +10,8 @@ export const Separator = forwardRef<
 >(({ className, orientation = 'horizontal', decorative = true, ...props }, ref) => (
   <SeparatorPrimitive.Root
     className={cn(
-      'shrink-0 bg-border',
-      orientation === 'horizontal' ? 'h-[1px] w-full' : 'h-full w-[1px]',
+      'bg-border shrink-0',
+      orientation === 'horizontal' ? 'h-px w-full' : 'h-full w-px',
       className,
     )}
     decorative={decorative}

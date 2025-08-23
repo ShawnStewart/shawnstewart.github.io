@@ -31,7 +31,7 @@ Alert.displayName = 'Alert';
 const AlertTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingElement>>(
   ({ className, ...props }, ref) => (
     <h5
-      className={cn('mb-1 font-medium leading-none tracking-tight', className)}
+      className={cn('mb-1 leading-none font-medium tracking-tight', className)}
       ref={ref}
       {...props}
     />

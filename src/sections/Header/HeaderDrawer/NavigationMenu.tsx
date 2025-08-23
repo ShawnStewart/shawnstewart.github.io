@@ -11,7 +11,7 @@ interface NavigationMenuProps {
 
 export function NavigationMenu({ onNavigationSelect }: NavigationMenuProps) {
   return (
-    <ul className="pb-2 pt-14">
+    <ul className="pt-14 pb-2">
       {Object.values(routes)
         .filter((route) => route.title)
         .map(({ path, title, icon: Icon }) => (
@@ -19,7 +19,7 @@ export function NavigationMenu({ onNavigationSelect }: NavigationMenuProps) {
             <Link
               className={cn(
                 buttonVariants({
-                  className: 'w-full justify-start gap-4 rounded-bl-none rounded-tl-none pr-12',
+                  className: 'w-full justify-start gap-4 rounded-tl-none rounded-bl-none pr-12',
                   variant: 'ghost',
                 }),
               )}

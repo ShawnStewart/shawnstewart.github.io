@@ -8,7 +8,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 min-h-12 border-b bg-background/95 text-foreground backdrop-blur supports-[backdrop-filter]:bg-background/60 sm:min-h-16">
+    <header className="bg-background/95 text-foreground supports-backdrop-filter:bg-background/60 sticky top-0 z-50 min-h-12 border-b backdrop-blur-sm sm:min-h-16">
       <div className="container flex justify-between">
         <HeaderDrawerContext>
           <div className="flex items-center gap-2">

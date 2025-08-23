@@ -92,7 +92,7 @@ function TechCard({
   return (
     <Card
       className={cn(
-        'flex h-full flex-col overflow-hidden bg-gradient-to-br transition-all hover:scale-110',
+        'flex h-full flex-col overflow-hidden bg-linear-to-br transition-all hover:scale-110',
         'from-cyan-400 via-blue-400 to-indigo-400 dark:from-red-500 dark:via-orange-500 dark:to-yellow-500',
       )}
     >
@@ -105,8 +105,8 @@ function TechCard({
         <Typography className="text-xs">{dependencyKeyAndVersion}</Typography>
       </CardHeader>
 
-      <CardContent className="flex flex-grow flex-col px-4 pb-6 pt-0 text-center">
-        <Typography className="flex-grow">{description}</Typography>
+      <CardContent className="flex grow flex-col px-4 pt-0 pb-6 text-center">
+        <Typography className="grow">{description}</Typography>
 
         <Typography className="text-xs">
           <a

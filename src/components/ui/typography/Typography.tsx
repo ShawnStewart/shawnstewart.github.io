@@ -32,7 +32,7 @@ function TypographyInlineCode({ children }: PropsWithChildren<HTMLAttributes<HTM
   return (
     <code
       className={cn(
-        'relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
+        'bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold',
       )}
     >
       {children}
@@ -46,7 +46,7 @@ function TypographyLead({
   ...props
 }: PropsWithChildren<HTMLAttributes<HTMLParagraphElement>>) {
   return (
-    <p className={cn('text-xl text-muted-foreground', className)} {...props}>
+    <p className={cn('text-muted-foreground text-xl', className)} {...props}>
       {children}
     </p>
   );
