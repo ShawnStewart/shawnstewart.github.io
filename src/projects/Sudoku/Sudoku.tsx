@@ -1,11 +1,14 @@
 import { Controls } from './Controls';
 import { GameBoard } from './GameBoard';
+import { SudokuProvider } from './SudokuContext';
 
 export function Sudoku() {
   return (
-    <div className="flex flex-col gap-2">
-      <GameBoard />
-      <Controls />
-    </div>
+    <SudokuProvider>
+      <div className="flex flex-col gap-2">
+        <GameBoard />
+        <Controls />
+      </div>
+    </SudokuProvider>
   );
 }

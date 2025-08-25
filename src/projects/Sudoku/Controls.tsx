@@ -1,26 +1,44 @@
 import { X } from 'lucide-react';
-import type { PropsWithChildren } from 'react';
+import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 
+import { useSetCellValue } from './hooks/useSetCellValue';
+
 export function Controls() {
+  const setCellValue = useSetCellValue();
+
   return (
     <div className="grid grid-cols-5 gap-2">
       <div className="col-span-4"></div>
+
       <ControlButton>Undo</ControlButton>
+
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
-        <ControlButton key={num}>{num}</ControlButton>
+        <ControlButton
+          key={num}
+          onClick={() => {
+            setCellValue(num);
+          }}
+        >
+          {num}
+        </ControlButton>
       ))}
-      <ControlButton>
+
+      <ControlButton
+        onClick={() => {
+          setCellValue(null);
+        }}
+      >
         <X />
       </ControlButton>
     </div>
   );
 }
 
-function ControlButton({ children }: PropsWithChildren) {
+function ControlButton({ children, ...props }: ComponentProps<typeof Button>) {
   return (
-    <Button className="bg-white text-black" variant={'outline'}>
+    <Button variant="outline" {...props}>
       {children}
     </Button>
   );
