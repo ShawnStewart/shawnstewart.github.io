@@ -13,7 +13,7 @@ export function GameBoard() {
   }
 
   return (
-    <div className="grid aspect-square w-full grid-cols-9 grid-rows-9 border-4 border-black bg-white dark:border-gray-400">
+    <div className="grid-cols-sudoku grid-rows-sudoku grid aspect-square w-full border-4 border-black bg-white dark:border-gray-400">
       {board.map((row, rowIdx) =>
         row.map((cell, colIdx) => (
           <CellTile

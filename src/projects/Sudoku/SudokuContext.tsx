@@ -1,17 +1,21 @@
 import type { ReactNode } from 'react';
 import { createContext, useContext, useState } from 'react';
 
+import { ALL_CANDIDATES, type CandidateMask } from './helpers/candidates';
+import { eliminateCandidates } from './helpers/solver';
 import { puzzle } from './puzzle';
 
 export interface SudokuCell {
   blockId: number;
   column: number;
   row: number;
-  value: number | null;
+  solutionCandidates: CandidateMask;
   readOnly: boolean;
+  userCandidates: CandidateMask;
+  value: number | null;
 }
 
-type SudokuBoard = SudokuCell[][]; // 9x9 grid
+export type SudokuBoard = SudokuCell[][]; // 9x9 grid
 
 interface SudokuContextType {
   board: SudokuBoard;
@@ -32,6 +36,8 @@ function _getBlankBoard(): SudokuBoard {
         column,
         readOnly: false,
         row,
+        solutionCandidates: 0,
+        userCandidates: 0,
         value: null,
       };
     }),
@@ -39,17 +45,23 @@ function _getBlankBoard(): SudokuBoard {
 }
 
 function getPuzzle(): SudokuBoard {
-  return puzzle.map((r, row) =>
+  let board = puzzle.map((r, row) =>
     r.map(
       (value, column): SudokuCell => ({
         blockId: getBlockId({ column, row }),
         column,
         readOnly: !!value,
         row,
+        solutionCandidates: ALL_CANDIDATES,
+        userCandidates: 0,
         value: value || null,
       }),
     ),
   );
+
+  board = eliminateCandidates(board);
+
+  return board;
 }
 
 const SudokuContext = createContext<SudokuContextType | undefined>(undefined);
