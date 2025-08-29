@@ -14,7 +14,7 @@ interface Props {
 
 export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
   const { cell, hasConflict } = useCell({ column, row });
-  const { blockId, readOnly, value, solutionCandidates } = cell;
+  const { blockId, readOnly, value, autoCandidates: solutionCandidates } = cell;
 
   const showCandidates = !value && !!solutionCandidates;
   const isRelatedToFocusedCell =

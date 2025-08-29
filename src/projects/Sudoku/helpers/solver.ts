@@ -1,41 +1,46 @@
 import type { SudokuBoard } from '../types';
-import type { CandidateMask } from './candidates';
+import { ALL_CANDIDATES } from './candidates';
 
-export function eliminateCandidates(board: SudokuBoard) {
+function countsToMask(counts: number[]): number {
+  let mask = 0;
+  for (let d = 0; d < 9; d++) {
+    if (counts[d] > 0) {
+      mask |= 1 << d;
+    }
+  }
+  return mask;
+}
+
+export function eliminateCandidates({
+  board,
+  countsByBlock,
+  countsByCol,
+  countsByRow,
+}: {
+  board: SudokuBoard;
+  countsByBlock: number[][];
+  countsByCol: number[][];
+  countsByRow: number[][];
+}) {
+  const blockMasks = countsByBlock.map((row) => countsToMask(row));
+  const colMasks = countsByCol.map((row) => countsToMask(row));
+  const rowMasks = countsByRow.map((row) => countsToMask(row));
+
   return board.map((row, r) =>
     row.map((cell, c) => {
       if (cell.value !== null) {
-        cell.solutionCandidates = 0;
+        cell.autoCandidates = 0;
         return cell;
       }
 
-      let usedMask: CandidateMask = 0;
-
-      // Row
-      for (let col = 0; col < 9; col++) {
-        const val = board[r][col].value;
-        if (val) usedMask |= 1 << (val - 1);
-      }
-
-      // Column
-      for (let row = 0; row < 9; row++) {
-        const val = board[row][c].value;
-        if (val) usedMask |= 1 << (val - 1);
-      }
-
-      // Block
-      const br = Math.floor(r / 3) * 3;
-      const bc = Math.floor(c / 3) * 3;
-      for (let rr = br; rr < br + 3; rr++) {
-        for (let cc = bc; cc < bc + 3; cc++) {
-          const val = board[rr][cc].value;
-          if (val) usedMask |= 1 << (val - 1);
-        }
-      }
+      const blockMask = blockMasks[cell.blockId];
+      const colMask = colMasks[c];
+      const rowMask = rowMasks[r];
+      const allMasks = blockMask | colMask | rowMask;
 
       return {
         ...cell,
-        solutionCandidates: cell.solutionCandidates & ~usedMask,
+        autoCandidates: ALL_CANDIDATES & ~allMasks,
       };
     }),
   );

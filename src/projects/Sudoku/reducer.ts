@@ -1,4 +1,5 @@
 import { getTestPuzzle } from './helpers/getPuzzle';
+import { eliminateCandidates } from './helpers/solver';
 import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 
 type SudokuAction =
@@ -12,7 +13,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
       const { blockId, column, row, value: prevValue } = state.focusedCell;
       const { value: nextValue } = action;
 
-      const updatedBoard = state.board.map((r, rIdx) => {
+      let updatedBoard = state.board.map((r, rIdx) => {
         return rIdx === row
           ? r.map((cell, cIdx) => {
               return cIdx === column
@@ -44,6 +45,13 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
         updatedCountsByCol[column][idx] += 1;
         updatedCountsByRow[row][idx] += 1;
       }
+
+      updatedBoard = eliminateCandidates({
+        board: updatedBoard,
+        countsByBlock: updatedCountsByBlock,
+        countsByCol: updatedCountsByCol,
+        countsByRow: updatedCountsByRow,
+      });
 
       return {
         ...state,
@@ -97,8 +105,9 @@ function getInitialCountsFromBoard(board: SudokuBoard): {
 }
 
 export function getInitialSudokuState(): SudokuState {
-  const board = getTestPuzzle();
+  let board = getTestPuzzle();
   const { countsByBlock, countsByCol, countsByRow } = getInitialCountsFromBoard(board);
+  board = eliminateCandidates({ board, countsByBlock, countsByCol, countsByRow });
   return {
     board,
     countsByBlock,
