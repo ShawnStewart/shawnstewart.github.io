@@ -7,5 +7,7 @@ interface Props {
 
 export function Candidates({ candidateMask }: Props) {
   const candidates = candidateMaskToList(candidateMask);
-  return candidates.map((candidate) => <Number key={candidate}>{candidate}</Number>);
+  return candidates.map((candidate, i) => (
+    <Number key={`${candidate ?? i + 1}`}>{candidate}</Number>
+  ));
 }

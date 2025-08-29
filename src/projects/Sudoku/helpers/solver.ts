@@ -1,4 +1,4 @@
-import type { SudokuBoard } from '../SudokuContext';
+import type { SudokuBoard } from '../types';
 import type { CandidateMask } from './candidates';
 
 export function eliminateCandidates(board: SudokuBoard) {

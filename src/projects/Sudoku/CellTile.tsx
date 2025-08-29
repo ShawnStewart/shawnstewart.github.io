@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils';
 
 import { Candidates } from './Candidates';
 import { Number } from './Number';
-import { type SudokuCell } from './SudokuContext';
+import type { SudokuCell } from './types';
 
 interface Props {
   cell: SudokuCell;

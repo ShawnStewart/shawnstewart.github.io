@@ -3,10 +3,10 @@ import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { useSetCellValue } from './hooks/useSetCellValue';
+import { useSudokuContext } from './SudokuContext';
 
 export function Controls() {
-  const setCellValue = useSetCellValue();
+  const { setCellValue } = useSudokuContext();
 
   return (
     <div className="grid grid-cols-5 gap-2">
