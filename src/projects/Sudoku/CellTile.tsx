@@ -1,23 +1,26 @@
 import { cn } from '@/lib/utils';
 
 import { Candidates } from './Candidates';
+import { useCell } from './hooks/useCell';
 import { Number } from './Number';
 import type { SudokuCell } from './types';
 
 interface Props {
-  cell: SudokuCell;
+  column: number;
   focusedCell: SudokuCell | null;
   handleFocus: (cell: SudokuCell | null) => void;
+  row: number;
 }
 
-export function CellTile({ cell, focusedCell, handleFocus }: Props) {
-  const { blockId, column, readOnly, row, value, solutionCandidates } = cell;
+export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
+  const { cell, hasConflict } = useCell({ column, row });
+  const { blockId, readOnly, value, solutionCandidates } = cell;
 
   const showCandidates = !value && !!solutionCandidates;
   const isRelatedToFocusedCell =
     blockId === focusedCell?.blockId || column === focusedCell?.column || row === focusedCell?.row;
   const isFocusedCell = column === focusedCell?.column && row === focusedCell.row;
-  const isFocusedCellValue = value && value === focusedCell?.value;
+  const matchesFocusedCellValue = value && value === focusedCell?.value;
 
   const className = cn(
     'aspect-square',
@@ -29,7 +32,7 @@ export function CellTile({ cell, focusedCell, handleFocus }: Props) {
 
     { 'bg-yellow-100': isRelatedToFocusedCell },
     { 'bg-gray-200': readOnly },
-    { 'bg-orange-400': isFocusedCell || isFocusedCellValue },
+    { 'bg-orange-400': isFocusedCell || matchesFocusedCellValue },
     'nth-[3n]:border-r-2',
     'nth-[3n+1]:border-l-2',
     'nth-[9n]:border-r-[1px]',
@@ -49,8 +52,11 @@ export function CellTile({ cell, focusedCell, handleFocus }: Props) {
     <div className={className} onClick={handleClick}>
       {showCandidates && <Candidates candidateMask={solutionCandidates} />}
       {value && (
-        <div className="w-full">
+        <div className="relative w-full">
           <Number>{value}</Number>
+          {hasConflict && (
+            <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-600" />
+          )}
         </div>
       )}
     </div>
