@@ -3,6 +3,7 @@ import type { ComponentProps } from 'react';
 
 import { Button } from '@/components/ui/button';
 
+import { SettingsModal } from './SettingsModal';
 import { useSudokuContext } from './SudokuContext';
 
 export function Controls() {
@@ -10,9 +11,11 @@ export function Controls() {
 
   return (
     <div className="grid grid-cols-5 gap-2">
-      <div className="col-span-4"></div>
+      <SettingsModal />
 
-      <ControlButton>Undo</ControlButton>
+      <div className="col-span-3"></div>
+
+      <ControlButton disabled>Undo</ControlButton>
 
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
         <ControlButton
@@ -36,7 +39,7 @@ export function Controls() {
   );
 }
 
-function ControlButton({ children, ...props }: ComponentProps<typeof Button>) {
+export function ControlButton({ children, ...props }: ComponentProps<typeof Button>) {
   return (
     <Button variant="outline" {...props}>
       {children}

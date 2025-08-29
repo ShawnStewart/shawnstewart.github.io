@@ -1,13 +1,14 @@
 import type { ReactNode } from 'react';
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useMemo, useReducer } from 'react';
 
 import { getInitialSudokuState, sudokuReducer } from './reducer';
-import type { SudokuCell, SudokuState } from './types';
+import type { SudokuCell, SudokuSettings, SudokuState } from './types';
 
 interface SudokuContextType {
   setCellValue: (value: number | null) => void;
   setFocusedCell: (cell: SudokuCell | null) => void;
   state: SudokuState;
+  updateSettings: (settings: Partial<SudokuSettings>) => void;
 }
 
 const SudokuContext = createContext<SudokuContextType | undefined>(undefined);
@@ -23,7 +24,14 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ cell, type: 'SET_FOCUSED_CELL' });
   };
 
-  const value = { setCellValue, setFocusedCell, state };
+  const updateSettings = (settings: Partial<SudokuSettings>) => {
+    dispatch({ settings, type: 'UPDATE_SETTINGS' });
+  };
+
+  const value = useMemo<SudokuContextType>(
+    () => ({ setCellValue, setFocusedCell, state, updateSettings }),
+    [state],
+  );
 
   return <SudokuContext.Provider value={value}>{children}</SudokuContext.Provider>;
 };

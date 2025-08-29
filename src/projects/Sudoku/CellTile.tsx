@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { Candidates } from './Candidates';
 import { useCell } from './hooks/useCell';
 import { Number } from './Number';
+import { useSudokuContext } from './SudokuContext';
 import type { SudokuCell } from './types';
 
 interface Props {
@@ -13,10 +14,15 @@ interface Props {
 }
 
 export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
+  const {
+    state: { settings },
+  } = useSudokuContext();
   const { cell, hasConflict } = useCell({ column, row });
-  const { blockId, readOnly, value, autoCandidates: solutionCandidates } = cell;
+  const { autoCandidates, blockId, readOnly, value, userCandidates } = cell;
 
-  const showCandidates = !value && !!solutionCandidates;
+  const candidates = !value && settings.showAutoCandidates ? autoCandidates : userCandidates;
+  const showCandidates = !!candidates;
+
   const isRelatedToFocusedCell =
     blockId === focusedCell?.blockId || column === focusedCell?.column || row === focusedCell?.row;
   const isFocusedCell = column === focusedCell?.column && row === focusedCell.row;
@@ -50,11 +56,11 @@ export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
 
   return (
     <div className={className} onClick={handleClick}>
-      {showCandidates && <Candidates candidateMask={solutionCandidates} />}
+      {showCandidates && <Candidates candidateMask={candidates} />}
       {value && (
         <div className="relative w-full">
           <Number>{value}</Number>
-          {hasConflict && (
+          {settings.showConflictHighlighting && hasConflict && (
             <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-600" />
           )}
         </div>

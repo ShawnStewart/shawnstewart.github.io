@@ -4,7 +4,8 @@ import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 
 type SudokuAction =
   | { type: 'SET_CELL'; value: number | null }
-  | { type: 'SET_FOCUSED_CELL'; cell: SudokuCell | null };
+  | { type: 'SET_FOCUSED_CELL'; cell: SudokuCell | null }
+  | { type: 'UPDATE_SETTINGS'; settings: Partial<SudokuState['settings']> };
 
 export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuState {
   switch (action.type) {
@@ -68,6 +69,9 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
     case 'SET_FOCUSED_CELL': {
       return { ...state, focusedCell: action.cell };
     }
+    case 'UPDATE_SETTINGS': {
+      return { ...state, settings: { ...state.settings, ...action.settings } };
+    }
     default:
       return state;
   }
@@ -114,5 +118,9 @@ export function getInitialSudokuState(): SudokuState {
     countsByCol,
     countsByRow,
     focusedCell: null,
+    settings: {
+      showAutoCandidates: false,
+      showConflictHighlighting: false,
+    },
   };
 }
