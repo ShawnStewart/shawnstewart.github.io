@@ -4,12 +4,6 @@ import type { PathRouteProps } from 'react-router-dom';
 
 import type { ComponentTypeAny } from '@/utils/loader/types';
 
-export enum Pages {
-  Portfolio,
-  ReactPWA,
-  NotFound,
-}
-
 type IconComponent<Props> = React.ForwardRefExoticComponent<
   Props & React.RefAttributes<SVGSVGElement>
 >;
@@ -21,4 +15,4 @@ interface PathRouteCustomProps {
   path: string;
 }
 
-export type Routes = Record<Pages, PathRouteProps & PathRouteCustomProps>;
+export type Routes = (PathRouteProps & PathRouteCustomProps)[];

@@ -18,8 +18,13 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-2 py-3">
-            <HeaderHotkeys />
-            <Separator orientation="vertical" />
+            <div className="hidden sm:block">
+              <HeaderHotkeys />
+            </div>
+
+            <div className="hidden h-full sm:block">
+              <Separator orientation="vertical" />
+            </div>
 
             <GitHubLink />
             <Separator orientation="vertical" />

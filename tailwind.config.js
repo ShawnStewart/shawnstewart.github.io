@@ -55,6 +55,12 @@ export default {
           5: 'hsl(var(--chart-5))',
         },
       },
+      gridTemplateColumns: {
+        sudoku: 'repeat(9, 1fr)',
+      },
+      gridTemplateRows: {
+        sudoku: 'repeat(9, 1fr)',
+      },
     },
   },
   plugins: [require('tailwindcss-animate')],
