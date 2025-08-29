@@ -1,4 +1,4 @@
-import type { ComponentProps, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
 import {
@@ -20,11 +20,13 @@ export function SettingsModal() {
   return (
     <Dialog modal={true} onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
-        <SettingsModalTrigger
+        <ControlButton
           onClick={() => {
             setIsOpen(true);
           }}
-        />
+        >
+          Settings
+        </ControlButton>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -34,10 +36,6 @@ export function SettingsModal() {
       </DialogContent>
     </Dialog>
   );
-}
-
-function SettingsModalTrigger(props: ComponentProps<typeof ControlButton>) {
-  return <ControlButton {...props}>Settings</ControlButton>;
 }
 
 function SettingsModalContent() {

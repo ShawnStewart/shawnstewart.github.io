@@ -1,5 +1,6 @@
 import { X } from 'lucide-react';
-import type { ComponentProps } from 'react';
+import type { ComponentPropsWithoutRef, ElementRef } from 'react';
+import { forwardRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -39,10 +40,13 @@ export function Controls() {
   );
 }
 
-export function ControlButton({ children, ...props }: ComponentProps<typeof Button>) {
-  return (
-    <Button variant="outline" {...props}>
-      {children}
-    </Button>
-  );
-}
+export const ControlButton = forwardRef<
+  ElementRef<typeof Button>,
+  ComponentPropsWithoutRef<typeof Button>
+>(({ children, ...props }, ref) => (
+  <Button variant="outline" {...props} ref={ref}>
+    {children}
+  </Button>
+));
+
+ControlButton.displayName = 'ControlButton';
