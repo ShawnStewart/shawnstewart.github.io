@@ -61,7 +61,7 @@ export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
         <div className="relative w-full">
           <Number>{value}</Number>
           {settings.showConflictHighlighting && hasConflict && (
-            <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-600" />
+            <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-500" />
           )}
         </div>
       )}

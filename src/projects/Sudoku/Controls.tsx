@@ -11,10 +11,10 @@ export function Controls() {
   const { setCellValue } = useSudokuContext();
 
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <div className="grid grid-cols-5 gap-2 lg:grid-cols-3">
       <SettingsModal />
 
-      <div className="col-span-3"></div>
+      <div className="col-span-3 lg:hidden"></div>
 
       <ControlButton disabled>Undo</ControlButton>
 
@@ -30,6 +30,7 @@ export function Controls() {
       ))}
 
       <ControlButton
+        className="lg:col-start-3 lg:row-start-1"
         onClick={() => {
           setCellValue(null);
         }}

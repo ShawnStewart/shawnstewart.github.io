@@ -120,7 +120,7 @@ export function getInitialSudokuState(): SudokuState {
     focusedCell: null,
     settings: {
       showAutoCandidates: false,
-      showConflictHighlighting: false,
+      showConflictHighlighting: true,
     },
   };
 }

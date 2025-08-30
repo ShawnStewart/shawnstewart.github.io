@@ -8,7 +8,7 @@ export function GameBoard() {
   const { state, setFocusedCell } = useSudokuContext();
 
   return (
-    <div className="grid-cols-sudoku grid-rows-sudoku grid aspect-square w-full border-4 border-black bg-white dark:border-gray-400">
+    <div className="grid-cols-sudoku grid-rows-sudoku grid aspect-square w-full max-w-[50svh] border-4 border-black bg-white lg:max-w-[80svh] dark:border-gray-400">
       {state.board.map((row, rowIdx) =>
         row.map((cell, colIdx) => (
           <CellTile

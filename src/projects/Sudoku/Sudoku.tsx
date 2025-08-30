@@ -5,7 +5,7 @@ import { SudokuProvider } from './SudokuContext';
 export function Sudoku() {
   return (
     <SudokuProvider>
-      <div className="mx-auto flex max-w-[600px] flex-col gap-2">
+      <div className="flex flex-col items-center gap-x-10 gap-y-2 lg:w-full lg:flex-row lg:justify-center">
         <GameBoard />
         <Controls />
       </div>
