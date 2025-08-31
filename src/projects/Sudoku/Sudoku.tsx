@@ -1,5 +1,6 @@
 import { Controls } from './Controls';
 import { GameBoard } from './GameBoard';
+import { SolvedModal } from './SolvedModal';
 import { SudokuProvider } from './SudokuContext';
 
 export function Sudoku() {
@@ -9,6 +10,7 @@ export function Sudoku() {
         <GameBoard />
         <Controls />
       </div>
+      <SolvedModal />
     </SudokuProvider>
   );
 }

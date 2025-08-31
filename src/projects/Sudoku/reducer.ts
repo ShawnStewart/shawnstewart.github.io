@@ -1,6 +1,7 @@
 import { toggleCandidate } from './helpers/candidates';
 import { getTestPuzzle } from './helpers/getPuzzle';
-import { setAutoCandidates } from './helpers/solver';
+import { checkIsSolvedAgainstSolution, setAutoCandidates } from './helpers/solver';
+import { solution } from './puzzle';
 import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 
 type SudokuAction =
@@ -62,6 +63,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
         countsByCol: updatedCountsByCol,
         countsByRow: updatedCountsByRow,
         focusedCell: updatedBoard[row][column],
+        isSolved: checkIsSolvedAgainstSolution({ board: updatedBoard, solution }),
       };
     }
     case 'SET_FOCUSED_CELL': {
@@ -180,6 +182,7 @@ export function getInitialSudokuState(): SudokuState {
     countsByRow,
     focusedCell: null,
     inputMode: 'normal',
+    isSolved: false,
     settings: {
       showAutoCandidates: false,
       showConflictHighlighting: true,

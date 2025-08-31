@@ -38,11 +38,13 @@ export function useKeyboardControls() {
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown);
+    if (!state.isSolved) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleValueInput, setFocusedCell, state.board, state.focusedCell]);
+  }, [handleValueInput, setFocusedCell, state.board, state.focusedCell, state.isSolved]);
 
   // Input mode toggle handler
   useEffect(() => {
@@ -52,11 +54,13 @@ export function useKeyboardControls() {
       }
     }
 
-    window.addEventListener('keydown', handleToggleInputMode);
-    window.addEventListener('keyup', handleToggleInputMode);
+    if (!state.isSolved) {
+      window.addEventListener('keydown', handleToggleInputMode);
+      window.addEventListener('keyup', handleToggleInputMode);
+    }
     return () => {
       window.removeEventListener('keydown', handleToggleInputMode);
       window.removeEventListener('keyup', handleToggleInputMode);
     };
-  }, [toggleInputMode]);
+  }, [state.isSolved, toggleInputMode]);
 }

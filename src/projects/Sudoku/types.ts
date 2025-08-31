@@ -24,5 +24,6 @@ export interface SudokuState {
   countsByRow: number[][];
   focusedCell: SudokuCell | null;
   inputMode: 'normal' | 'candidate';
+  isSolved: boolean;
   settings: SudokuSettings;
 }

@@ -11,6 +11,10 @@ import { useSudokuContext } from './SudokuContext';
 import type { SudokuState } from './types';
 
 export function Controls() {
+  const {
+    state: { isSolved },
+  } = useSudokuContext();
+
   const handleValueInput = useHandleValueInput();
 
   return (
@@ -28,6 +32,7 @@ export function Controls() {
 
       {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((num) => (
         <ControlButton
+          disabled={isSolved}
           key={num}
           onClick={() => {
             handleValueInput(num);
@@ -39,6 +44,7 @@ export function Controls() {
 
       <ControlButton
         className="lg:col-start-3 lg:row-start-2"
+        disabled={isSolved}
         onClick={() => {
           handleValueInput(null);
         }}
@@ -63,7 +69,7 @@ ControlButton.displayName = 'ControlButton';
 function InputModeToggle() {
   const {
     setInputMode,
-    state: { inputMode, settings },
+    state: { inputMode, isSolved, settings },
   } = useSudokuContext();
 
   function handleChange(value: SudokuState['inputMode']) {
@@ -73,6 +79,7 @@ function InputModeToggle() {
   return (
     <ToggleGroup
       className="w-full"
+      disabled={isSolved}
       onValueChange={handleChange}
       type="single"
       value={inputMode}

@@ -12,7 +12,7 @@ interface Props {
 
 export function CellTile({ column, row }: Props) {
   const {
-    state: { focusedCell, settings },
+    state: { focusedCell, isSolved, settings },
     setFocusedCell,
   } = useSudokuContext();
   const { cell, hasConflict } = useCell({ column, row });
@@ -34,8 +34,9 @@ export function CellTile({ column, row }: Props) {
       'grid grid-cols-3 grid-rows-3': showCandidates,
     },
     { 'bg-cyan-200': isRelatedToFocusedCell },
-    { 'bg-gray-200': readOnly },
     { 'bg-cyan-500': isFocusedCell || matchesFocusedCellValue },
+    { 'bg-green-500': isSolved },
+    { 'bg-gray-200': readOnly },
     'nth-[3n]:border-r-2',
     'nth-[3n+1]:border-l-2',
     'nth-[9n]:border-r-[1px]',

@@ -16,12 +16,17 @@ import { useSudokuContext } from './SudokuContext';
 import type { SudokuSettings } from './types';
 
 export function SettingsModal() {
+  const {
+    state: { isSolved },
+  } = useSudokuContext();
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Dialog modal={true} onOpenChange={setIsOpen} open={isOpen}>
       <DialogTrigger asChild>
         <ControlButton
+          disabled={isSolved}
           onClick={() => {
             setIsOpen(true);
           }}
@@ -42,7 +47,7 @@ export function SettingsModal() {
 
 function SettingsModalContent() {
   return (
-    <div className="flex w-fit flex-col gap-2">
+    <div className="flex w-full flex-col gap-y-2">
       <SettingToggle settingKey="showAutoCandidates">Show auto candidates</SettingToggle>
       <SettingToggle settingKey="showConflictHighlighting">
         Show conflict highlighting
@@ -65,8 +70,10 @@ function SettingToggle({
   }
 
   return (
-    <div className="flex items-center justify-between gap-x-8">
-      <label htmlFor={settingKey}>{children}</label>
+    <div className="flex items-center justify-between">
+      <label className="grow" htmlFor={settingKey}>
+        {children}
+      </label>
       <Switch
         checked={settings[settingKey]}
         id={settingKey}
