@@ -1,3 +1,4 @@
+import { Settings } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
 import { useState } from 'react';
 
@@ -25,7 +26,8 @@ export function SettingsModal() {
             setIsOpen(true);
           }}
         >
-          Settings
+          <Settings aria-label="Settings" className="md:hidden" />
+          <span className="hidden md:inline">Settings</span>
         </ControlButton>
       </DialogTrigger>
       <DialogContent>

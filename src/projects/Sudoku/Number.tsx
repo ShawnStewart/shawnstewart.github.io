@@ -1,12 +1,15 @@
-import type { PropsWithChildren } from 'react';
+import type { SVGAttributes } from 'react';
 
-export function Number({ children }: PropsWithChildren) {
+interface Props {
+  fontSize?: number;
+}
+
+export function Number({ children, fontSize, ...props }: SVGAttributes<SVGElement> & Props) {
   return (
-    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" {...props}>
       <text
         dominantBaseline="middle"
-        fill="black"
-        fontSize="50"
+        fontSize={`${fontSize ?? 50}`}
         textAnchor="middle"
         x="50%"
         y="50%"

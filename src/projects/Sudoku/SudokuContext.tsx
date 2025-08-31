@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { createContext, useContext, useMemo, useReducer } from 'react';
+import { createContext, useCallback, useContext, useMemo, useReducer } from 'react';
 
 import { getInitialSudokuState, sudokuReducer } from './reducer';
 import type { SudokuCell, SudokuSettings, SudokuState } from './types';
@@ -7,7 +7,10 @@ import type { SudokuCell, SudokuSettings, SudokuState } from './types';
 interface SudokuContextType {
   setCellValue: (value: number | null) => void;
   setFocusedCell: (cell: SudokuCell | null) => void;
+  setInputMode: (mode: SudokuState['inputMode']) => void;
   state: SudokuState;
+  toggleCandidate: (value: number | null) => void;
+  toggleInputMode: () => void;
   updateSettings: (settings: Partial<SudokuSettings>) => void;
 }
 
@@ -20,8 +23,25 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
     dispatch({ type: 'SET_CELL', value });
   };
 
-  const setFocusedCell = (cell: SudokuCell | null) => {
-    dispatch({ cell, type: 'SET_FOCUSED_CELL' });
+  const setFocusedCell = useCallback(
+    (cell: SudokuCell | null) => {
+      if (cell?.column === state.focusedCell?.column && cell?.row === state.focusedCell?.row)
+        return;
+      dispatch({ cell, type: 'SET_FOCUSED_CELL' });
+    },
+    [state.focusedCell?.column, state.focusedCell?.row],
+  );
+
+  function setInputMode(inputMode: SudokuState['inputMode']) {
+    dispatch({ inputMode, type: 'SET_INPUT_MODE' });
+  }
+
+  const toggleCandidate = (value: number | null) => {
+    dispatch({ type: 'TOGGLE_CANDIDATE', value });
+  };
+
+  const toggleInputMode = () => {
+    dispatch({ type: 'TOGGLE_INPUT_MODE' });
   };
 
   const updateSettings = (settings: Partial<SudokuSettings>) => {
@@ -29,8 +49,16 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const value = useMemo<SudokuContextType>(
-    () => ({ setCellValue, setFocusedCell, state, updateSettings }),
-    [state],
+    () => ({
+      setCellValue,
+      setFocusedCell,
+      setInputMode,
+      state,
+      toggleCandidate,
+      toggleInputMode,
+      updateSettings,
+    }),
+    [setFocusedCell, state],
   );
 
   return <SudokuContext.Provider value={value}>{children}</SudokuContext.Provider>;

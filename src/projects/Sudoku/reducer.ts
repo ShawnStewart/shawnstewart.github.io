@@ -1,31 +1,32 @@
+import { toggleCandidate } from './helpers/candidates';
 import { getTestPuzzle } from './helpers/getPuzzle';
-import { eliminateCandidates } from './helpers/solver';
+import { setAutoCandidates } from './helpers/solver';
 import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 
 type SudokuAction =
   | { type: 'SET_CELL'; value: number | null }
   | { type: 'SET_FOCUSED_CELL'; cell: SudokuCell | null }
+  | { type: 'SET_INPUT_MODE'; inputMode: SudokuState['inputMode'] }
+  | { type: 'TOGGLE_CANDIDATE'; value: number | null }
+  | { type: 'TOGGLE_INPUT_MODE' }
   | { type: 'UPDATE_SETTINGS'; settings: Partial<SudokuState['settings']> };
 
 export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuState {
   switch (action.type) {
     case 'SET_CELL': {
       if (!state.focusedCell || state.focusedCell.value === action.value) return state;
-      const { blockId, column, row, value: prevValue } = state.focusedCell;
+      const { blockId, column, row } = state.focusedCell;
+      const { value: prevValue } = state.board[row][column];
       const { value: nextValue } = action;
 
-      let updatedBoard = state.board.map((r, rIdx) => {
-        return rIdx === row
-          ? r.map((cell, cIdx) => {
-              return cIdx === column
-                ? {
-                    ...cell,
-                    value: nextValue,
-                  }
-                : cell;
-            })
-          : r;
-      });
+      const updatedCell = {
+        ...state.board[row][column],
+        value: nextValue,
+      };
+
+      let updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) => (rIdx === row && cIdx === column ? updatedCell : { ...cell })),
+      );
 
       const updatedCountsByBlock = state.countsByBlock.map((block) => [...block]);
       const updatedCountsByCol = state.countsByCol.map((col) => [...col]);
@@ -47,7 +48,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
         updatedCountsByRow[row][idx] += 1;
       }
 
-      updatedBoard = eliminateCandidates({
+      updatedBoard = setAutoCandidates({
         board: updatedBoard,
         countsByBlock: updatedCountsByBlock,
         countsByCol: updatedCountsByCol,
@@ -60,17 +61,77 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
         countsByBlock: updatedCountsByBlock,
         countsByCol: updatedCountsByCol,
         countsByRow: updatedCountsByRow,
-        focusedCell: {
-          ...state.focusedCell,
-          value: nextValue,
-        },
+        focusedCell: updatedBoard[row][column],
       };
     }
     case 'SET_FOCUSED_CELL': {
       return { ...state, focusedCell: action.cell };
     }
+    case 'SET_INPUT_MODE': {
+      return { ...state, inputMode: action.inputMode };
+    }
+    case 'TOGGLE_CANDIDATE': {
+      if (!state.focusedCell) return state;
+      const { blockId, column, row } = state.focusedCell;
+      const cell = state.board[row][column];
+      const { value: prevValue } = cell;
+      const { value: nextValue } = action;
+
+      const updatedCell = { ...cell };
+
+      if (prevValue && !nextValue) {
+        updatedCell.value = null;
+      } else {
+        updatedCell.value = null;
+        updatedCell.userCandidates = !nextValue
+          ? 0
+          : toggleCandidate(cell.userCandidates, nextValue);
+      }
+
+      let updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) => (rIdx === row && cIdx === column ? updatedCell : { ...cell })),
+      );
+
+      let updatedCountsByBlock = state.countsByBlock;
+      let updatedCountsByCol = state.countsByCol;
+      let updatedCountsByRow = state.countsByRow;
+      if (prevValue) {
+        updatedCountsByBlock = state.countsByBlock.map((block) => [...block]);
+        updatedCountsByCol = state.countsByCol.map((col) => [...col]);
+        updatedCountsByRow = state.countsByRow.map((row) => [...row]);
+
+        const idx = prevValue - 1;
+        updatedCountsByBlock[blockId][idx] -= 1;
+        updatedCountsByCol[column][idx] -= 1;
+        updatedCountsByRow[row][idx] -= 1;
+
+        updatedBoard = setAutoCandidates({
+          board: updatedBoard,
+          countsByBlock: updatedCountsByBlock,
+          countsByCol: updatedCountsByCol,
+          countsByRow: updatedCountsByRow,
+        });
+      }
+
+      return {
+        ...state,
+        board: updatedBoard,
+        countsByBlock: updatedCountsByBlock,
+        countsByCol: updatedCountsByCol,
+        countsByRow: updatedCountsByRow,
+        focusedCell: updatedBoard[row][column],
+      };
+    }
+    case 'TOGGLE_INPUT_MODE': {
+      const nextMode = state.inputMode === 'normal' ? 'candidate' : 'normal';
+      return { ...state, inputMode: nextMode };
+    }
     case 'UPDATE_SETTINGS': {
-      return { ...state, settings: { ...state.settings, ...action.settings } };
+      const nextState = { ...state, settings: { ...state.settings, ...action.settings } };
+      if (action.settings.showAutoCandidates) {
+        nextState.inputMode = 'normal';
+      }
+      return nextState;
     }
     default:
       return state;
@@ -111,13 +172,14 @@ function getInitialCountsFromBoard(board: SudokuBoard): {
 export function getInitialSudokuState(): SudokuState {
   let board = getTestPuzzle();
   const { countsByBlock, countsByCol, countsByRow } = getInitialCountsFromBoard(board);
-  board = eliminateCandidates({ board, countsByBlock, countsByCol, countsByRow });
+  board = setAutoCandidates({ board, countsByBlock, countsByCol, countsByRow });
   return {
     board,
     countsByBlock,
     countsByCol,
     countsByRow,
     focusedCell: null,
+    inputMode: 'normal',
     settings: {
       showAutoCandidates: false,
       showConflictHighlighting: true,

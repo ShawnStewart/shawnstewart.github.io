@@ -11,7 +11,7 @@ function countsToMask(counts: number[]): number {
   return mask;
 }
 
-export function eliminateCandidates({
+export function setAutoCandidates({
   board,
   countsByBlock,
   countsByCol,

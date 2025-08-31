@@ -4,24 +4,22 @@ import { Candidates } from './Candidates';
 import { useCell } from './hooks/useCell';
 import { Number } from './Number';
 import { useSudokuContext } from './SudokuContext';
-import type { SudokuCell } from './types';
 
 interface Props {
   column: number;
-  focusedCell: SudokuCell | null;
-  handleFocus: (cell: SudokuCell | null) => void;
   row: number;
 }
 
-export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
+export function CellTile({ column, row }: Props) {
   const {
-    state: { settings },
+    state: { focusedCell, settings },
+    setFocusedCell,
   } = useSudokuContext();
   const { cell, hasConflict } = useCell({ column, row });
   const { autoCandidates, blockId, readOnly, value, userCandidates } = cell;
 
-  const candidates = !value && settings.showAutoCandidates ? autoCandidates : userCandidates;
-  const showCandidates = !!candidates;
+  const showCandidates = !value;
+  const candidates = settings.showAutoCandidates ? autoCandidates : userCandidates;
 
   const isRelatedToFocusedCell =
     blockId === focusedCell?.blockId || column === focusedCell?.column || row === focusedCell?.row;
@@ -35,10 +33,9 @@ export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
       flex: !showCandidates,
       'grid grid-cols-3 grid-rows-3': showCandidates,
     },
-
-    { 'bg-yellow-100': isRelatedToFocusedCell },
+    { 'bg-cyan-200': isRelatedToFocusedCell },
     { 'bg-gray-200': readOnly },
-    { 'bg-orange-400': isFocusedCell || matchesFocusedCellValue },
+    { 'bg-cyan-500': isFocusedCell || matchesFocusedCellValue },
     'nth-[3n]:border-r-2',
     'nth-[3n+1]:border-l-2',
     'nth-[9n]:border-r-[1px]',
@@ -51,12 +48,12 @@ export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
   );
 
   function handleClick() {
-    handleFocus(cell);
+    setFocusedCell(cell);
   }
 
   return (
     <div className={className} onClick={handleClick}>
-      {showCandidates && <Candidates candidateMask={candidates} />}
+      {showCandidates && <Candidates candidateMask={candidates} isFocusedCell={isFocusedCell} />}
       {value && (
         <div className="relative w-full">
           <Number>{value}</Number>
