@@ -5,6 +5,8 @@ import { solution } from './puzzle';
 import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 
 type SudokuAction =
+  | { type: 'CHECK_CELL' }
+  | { type: 'CHECK_PUZZLE' }
   | { type: 'SET_CELL'; value: number | null }
   | { type: 'SET_FOCUSED_CELL'; cell: SudokuCell | null }
   | { type: 'SET_INPUT_MODE'; inputMode: SudokuState['inputMode'] }
@@ -14,13 +16,43 @@ type SudokuAction =
 
 export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuState {
   switch (action.type) {
+    case 'CHECK_CELL': {
+      if (!state.focusedCell || state.isSolved) return state;
+      const { column, row } = state.focusedCell;
+      const { isValidated, value } = state.board[row][column];
+      if (isValidated || !value) return state;
+
+      const isCorrect = value === solution[row][column];
+
+      const updatedCell: SudokuCell = {
+        ...state.board[row][column],
+        isInvalid: !isCorrect,
+        isValidated: isCorrect,
+      };
+
+      const updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) => (rIdx === row && cIdx === column ? updatedCell : { ...cell })),
+      );
+
+      return { ...state, board: updatedBoard };
+    }
+    case 'CHECK_PUZZLE': {
+      const updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) => {
+          const isCorrect = cell.value === solution[rIdx][cIdx];
+          return { ...cell, isInvalid: !isCorrect, isValidated: isCorrect };
+        }),
+      );
+
+      return { ...state, board: updatedBoard };
+    }
     case 'SET_CELL': {
       if (!state.focusedCell || state.focusedCell.value === action.value) return state;
       const { blockId, column, row } = state.focusedCell;
       const { value: prevValue } = state.board[row][column];
       const { value: nextValue } = action;
 
-      const updatedCell = {
+      const updatedCell: SudokuCell = {
         ...state.board[row][column],
         value: nextValue,
       };
@@ -79,7 +111,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
       const { value: prevValue } = cell;
       const { value: nextValue } = action;
 
-      const updatedCell = { ...cell };
+      const updatedCell: SudokuCell = { ...cell };
 
       if (prevValue && !nextValue) {
         updatedCell.value = null;
@@ -185,7 +217,7 @@ export function getInitialSudokuState(): SudokuState {
     isSolved: false,
     settings: {
       showAutoCandidates: false,
-      showConflictHighlighting: true,
+      showConflictHighlighting: false,
     },
   };
 }

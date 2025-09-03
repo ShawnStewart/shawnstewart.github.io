@@ -4,6 +4,8 @@ export interface SudokuCell {
   autoCandidates: CandidateMask;
   blockId: number;
   column: number;
+  isInvalid: boolean;
+  isValidated: boolean;
   row: number;
   readOnly: boolean;
   userCandidates: CandidateMask;

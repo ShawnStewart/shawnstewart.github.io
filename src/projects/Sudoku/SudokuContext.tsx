@@ -5,6 +5,8 @@ import { getInitialSudokuState, sudokuReducer } from './reducer';
 import type { SudokuCell, SudokuSettings, SudokuState } from './types';
 
 interface SudokuContextType {
+  checkCell: () => void;
+  checkPuzzle: () => void;
   setCellValue: (value: number | null) => void;
   setFocusedCell: (cell: SudokuCell | null) => void;
   setInputMode: (mode: SudokuState['inputMode']) => void;
@@ -18,6 +20,14 @@ const SudokuContext = createContext<SudokuContextType | undefined>(undefined);
 
 export const SudokuProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(sudokuReducer, null, getInitialSudokuState);
+
+  function checkCell() {
+    dispatch({ type: 'CHECK_CELL' });
+  }
+
+  function checkPuzzle() {
+    dispatch({ type: 'CHECK_PUZZLE' });
+  }
 
   const setCellValue = (value: number | null) => {
     dispatch({ type: 'SET_CELL', value });
@@ -50,6 +60,8 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
 
   const value = useMemo<SudokuContextType>(
     () => ({
+      checkCell,
+      checkPuzzle,
       setCellValue,
       setFocusedCell,
       setInputMode,

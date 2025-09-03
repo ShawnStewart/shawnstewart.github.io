@@ -16,7 +16,7 @@ export function CellTile({ column, row }: Props) {
     setFocusedCell,
   } = useSudokuContext();
   const { cell, hasConflict } = useCell({ column, row });
-  const { autoCandidates, blockId, readOnly, value, userCandidates } = cell;
+  const { autoCandidates, blockId, isInvalid, isValidated, readOnly, value, userCandidates } = cell;
 
   const showCandidates = !value;
   const candidates = settings.showAutoCandidates ? autoCandidates : userCandidates;
@@ -26,6 +26,8 @@ export function CellTile({ column, row }: Props) {
   const isFocusedCell = column === focusedCell?.column && row === focusedCell.row;
   const matchesFocusedCellValue = value && value === focusedCell?.value;
 
+  const isSolvedOrValidated = !readOnly && (isSolved || isValidated);
+
   const className = cn(
     'aspect-square',
     'border-[.5px]  border-gray-400',
@@ -34,9 +36,12 @@ export function CellTile({ column, row }: Props) {
       'grid grid-cols-3 grid-rows-3': showCandidates,
     },
     { 'bg-cyan-200': isRelatedToFocusedCell },
-    { 'bg-cyan-500': isFocusedCell || matchesFocusedCellValue },
-    { 'bg-green-500': isSolved },
     { 'bg-gray-200': readOnly },
+    { 'bg-cyan-400': !isSolved && matchesFocusedCellValue },
+    { 'bg-cyan-500': !isSolved && isFocusedCell },
+    { 'bg-green-400': isSolvedOrValidated },
+    { 'bg-green-600': isSolvedOrValidated && isFocusedCell },
+    { 'fill-red-500 font-bold': isInvalid },
     'nth-[3n]:border-r-2',
     'nth-[3n+1]:border-l-2',
     'nth-[9n]:border-r-[1px]',
