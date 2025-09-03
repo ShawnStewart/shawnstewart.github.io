@@ -8,7 +8,7 @@ export function GameBoard() {
   const { state } = useSudokuContext();
 
   return (
-    <div className="grid-cols-sudoku grid-rows-sudoku grid aspect-square w-full border-4 border-black bg-white lg:max-w-[80svh] dark:border-gray-400">
+    <div className="grid-cols-sudoku grid-rows-sudoku grid aspect-square w-full gap-[1px] border-4 border-black bg-gray-400 lg:max-w-[80svh] dark:border-gray-600 dark:bg-gray-400">
       {state.board.map((row, rowIdx) =>
         row.map((cell, colIdx) => (
           <CellTile column={colIdx} key={`${(rowIdx + 1) * colIdx}-${cell.value}`} row={rowIdx} />

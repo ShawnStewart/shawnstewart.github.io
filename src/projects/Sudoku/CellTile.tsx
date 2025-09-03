@@ -29,12 +29,12 @@ export function CellTile({ column, row }: Props) {
   const isSolvedOrValidated = !readOnly && (isSolved || isValidated);
 
   const className = cn(
-    'aspect-square',
-    'border-[.5px]  border-gray-400',
+    'aspect-square relative after:absolute after:inset-0 after:border-gray-400 after:pointer-events-none ',
     {
       flex: !showCandidates,
       'grid grid-cols-3 grid-rows-3': showCandidates,
     },
+    { 'bg-white': true },
     { 'bg-cyan-200': isRelatedToFocusedCell },
     { 'bg-gray-200': readOnly },
     { 'bg-cyan-400': !isSolved && matchesFocusedCellValue },
@@ -42,14 +42,14 @@ export function CellTile({ column, row }: Props) {
     { 'bg-green-400': isSolvedOrValidated },
     { 'bg-green-600': isSolvedOrValidated && isFocusedCell },
     { 'fill-red-500 font-bold': isInvalid },
-    'nth-[3n]:border-r-2',
-    'nth-[3n+1]:border-l-2',
-    'nth-[9n]:border-r-[1px]',
-    'nth-[9n+1]:border-l-[1px]',
-    'nth-[n+19]:nth-[-n+27]:border-b-2',
-    'nth-[n+28]:nth-[-n+36]:border-t-2',
-    'nth-[n+46]:nth-[-n+54]:border-b-2',
-    'nth-[n+55]:nth-[-n+63]:border-t-2',
+    'nth-[3n]:after:border-r-[1px]',
+    'nth-[3n+1]:after:border-l-[1px]',
+    'nth-[9n]:after:border-r-0',
+    'nth-[9n+1]:after:border-l-0',
+    'nth-[n+19]:nth-[-n+27]:after:border-b-[1px]',
+    'nth-[n+28]:nth-[-n+36]:after:border-t-[1px]',
+    'nth-[n+46]:nth-[-n+54]:after:border-b-[1px]',
+    'nth-[n+55]:nth-[-n+63]:after:border-t-[1px]',
     'select-none',
   );
 
