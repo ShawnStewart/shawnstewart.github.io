@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-      - run: npm install
+      - run: npm install --legacy-peer-deps
       - run: npm run build --if-present
       - name: Upload static files as artifact
         id: deployment
