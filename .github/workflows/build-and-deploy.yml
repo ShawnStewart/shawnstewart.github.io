@@ -25,6 +25,9 @@ jobs:
           node-version-file: '.node-version'
       - run: npm install --legacy-peer-deps
       - run: npm run build --if-present
+      # Copy index.html → 404.html for SPA routing support
+      - name: Add SPA fallback
+        run: cp dist/index.html dist/404.html
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3 # or specific "vX.X.X" version tag for this action
