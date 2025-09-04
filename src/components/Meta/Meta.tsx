@@ -1,5 +1,3 @@
-import { Helmet } from 'react-helmet-async';
-
 import { defaultMetaTags, title as appTitle } from '@/config';
 
 import type { MetaProps } from './types';
@@ -13,42 +11,19 @@ export function Meta({
   const pageTitle = `${appTitle}${title ? ` | ${title}` : ''}`;
 
   return (
-    <Helmet
-      meta={[
-        {
-          content: description,
-          name: 'description',
-        },
-        {
-          content: pageTitle,
-          property: 'og:title',
-        },
-        {
-          content: description,
-          property: 'og:description',
-        },
-        {
-          content: 'website',
-          property: 'og:type',
-        },
-        {
-          content: image,
-          property: 'og:image',
-        },
-        {
-          content: 'summary',
-          name: 'twitter:card',
-        },
-        {
-          content: pageTitle,
-          name: 'twitter:title',
-        },
-        {
-          content: description,
-          name: 'twitter:description',
-        },
-      ].concat(meta)}
-      title={pageTitle}
-    />
+    <>
+      <title>{pageTitle}</title>
+      <meta content={description} name="description" />
+      <meta content={pageTitle} property="og:title" />
+      <meta content={description} property="og:description" />
+      <meta content="website" property="og:type" />
+      <meta content={image} property="og:image" />
+      <meta content="summary" name="twitter:card" />
+      <meta content={pageTitle} name="twitter:title" />
+      <meta content={description} name="twitter:description" />
+      {meta.map((m, i) => (
+        <meta key={i} {...m} />
+      ))}
+    </>
   );
 }

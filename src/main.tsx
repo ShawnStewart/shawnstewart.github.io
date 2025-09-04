@@ -1,7 +1,7 @@
 import { logWelcomeMessage } from '@/utils/welcome';
 
 // Root contains the main dependencies and providers of the base app
-//  - React, ReactDom, HelmetProvider, ThemeProvider)
+//  - React, ReactDom, ThemeProvider)
 // App contains the main structure of the base app
 
 // These are the two main chunks that are used to render the core structure of the app
