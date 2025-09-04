@@ -47,7 +47,12 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
       return { ...state, board: updatedBoard };
     }
     case 'SET_CELL': {
-      if (!state.focusedCell || state.focusedCell.value === action.value) return state;
+      if (
+        !state.focusedCell ||
+        state.focusedCell.readOnly ||
+        state.focusedCell.value === action.value
+      )
+        return state;
       const { blockId, column, row } = state.focusedCell;
       const { value: prevValue } = state.board[row][column];
       const { value: nextValue } = action;
