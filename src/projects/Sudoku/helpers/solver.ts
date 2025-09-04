@@ -11,7 +11,7 @@ function countsToMask(counts: number[]): number {
   return mask;
 }
 
-export function eliminateCandidates({
+export function setAutoCandidates({
   board,
   countsByBlock,
   countsByCol,
@@ -44,4 +44,18 @@ export function eliminateCandidates({
       };
     }),
   );
+}
+
+export function checkIsSolvedAgainstSolution({
+  board,
+  solution,
+}: {
+  board: SudokuBoard;
+  solution: number[][];
+}) {
+  return board.every((row, rIdx) => {
+    return row.every((cell, cIdx) => {
+      return cell.value && cell.value === solution[rIdx][cIdx];
+    });
+  });
 }

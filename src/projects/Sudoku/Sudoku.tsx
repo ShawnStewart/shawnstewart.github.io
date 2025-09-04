@@ -1,14 +1,16 @@
 import { Controls } from './Controls';
 import { GameBoard } from './GameBoard';
+import { SolvedModal } from './SolvedModal';
 import { SudokuProvider } from './SudokuContext';
 
 export function Sudoku() {
   return (
     <SudokuProvider>
-      <div className="mx-auto flex max-w-[600px] flex-col gap-2">
+      <div className="mx-auto flex w-full flex-col items-center gap-x-10 gap-y-2 md:max-w-[70svh] lg:max-w-none lg:flex-row lg:justify-center">
         <GameBoard />
         <Controls />
       </div>
+      <SolvedModal />
     </SudokuProvider>
   );
 }

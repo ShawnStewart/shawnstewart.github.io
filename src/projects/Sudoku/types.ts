@@ -4,6 +4,8 @@ export interface SudokuCell {
   autoCandidates: CandidateMask;
   blockId: number;
   column: number;
+  isInvalid: boolean;
+  isValidated: boolean;
   row: number;
   readOnly: boolean;
   userCandidates: CandidateMask;
@@ -23,5 +25,7 @@ export interface SudokuState {
   countsByCol: number[][];
   countsByRow: number[][];
   focusedCell: SudokuCell | null;
+  inputMode: 'normal' | 'candidate';
+  isSolved: boolean;
   settings: SudokuSettings;
 }

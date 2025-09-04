@@ -4,64 +4,67 @@ import { Candidates } from './Candidates';
 import { useCell } from './hooks/useCell';
 import { Number } from './Number';
 import { useSudokuContext } from './SudokuContext';
-import type { SudokuCell } from './types';
 
 interface Props {
   column: number;
-  focusedCell: SudokuCell | null;
-  handleFocus: (cell: SudokuCell | null) => void;
   row: number;
 }
 
-export function CellTile({ column, row, focusedCell, handleFocus }: Props) {
+export function CellTile({ column, row }: Props) {
   const {
-    state: { settings },
+    state: { focusedCell, isSolved, settings },
+    setFocusedCell,
   } = useSudokuContext();
   const { cell, hasConflict } = useCell({ column, row });
-  const { autoCandidates, blockId, readOnly, value, userCandidates } = cell;
+  const { autoCandidates, blockId, isInvalid, isValidated, readOnly, value, userCandidates } = cell;
 
-  const candidates = !value && settings.showAutoCandidates ? autoCandidates : userCandidates;
-  const showCandidates = !!candidates;
+  const showCandidates = !value;
+  const candidates = settings.showAutoCandidates ? autoCandidates : userCandidates;
 
   const isRelatedToFocusedCell =
     blockId === focusedCell?.blockId || column === focusedCell?.column || row === focusedCell?.row;
   const isFocusedCell = column === focusedCell?.column && row === focusedCell.row;
   const matchesFocusedCellValue = value && value === focusedCell?.value;
 
+  const isSolvedOrValidated = !readOnly && (isSolved || isValidated);
+
   const className = cn(
-    'aspect-square',
-    'border-[.5px]  border-gray-400',
+    'aspect-square relative after:absolute after:inset-0 after:border-gray-400 after:pointer-events-none ',
     {
       flex: !showCandidates,
       'grid grid-cols-3 grid-rows-3': showCandidates,
     },
-
-    { 'bg-yellow-100': isRelatedToFocusedCell },
+    { 'bg-white': true },
+    { 'bg-cyan-200': isRelatedToFocusedCell },
     { 'bg-gray-200': readOnly },
-    { 'bg-orange-400': isFocusedCell || matchesFocusedCellValue },
-    'nth-[3n]:border-r-2',
-    'nth-[3n+1]:border-l-2',
-    'nth-[9n]:border-r-[1px]',
-    'nth-[9n+1]:border-l-[1px]',
-    'nth-[n+19]:nth-[-n+27]:border-b-2',
-    'nth-[n+28]:nth-[-n+36]:border-t-2',
-    'nth-[n+46]:nth-[-n+54]:border-b-2',
-    'nth-[n+55]:nth-[-n+63]:border-t-2',
+    { 'bg-cyan-400': !isSolved && matchesFocusedCellValue },
+    { 'bg-cyan-500': !isSolved && isFocusedCell },
+    { 'bg-green-400': isSolvedOrValidated },
+    { 'bg-green-600': isSolvedOrValidated && isFocusedCell },
+    { 'fill-red-500 font-bold': isInvalid },
+    'nth-[3n]:after:border-r-[1px]',
+    'nth-[3n+1]:after:border-l-[1px]',
+    'nth-[9n]:after:border-r-0',
+    'nth-[9n+1]:after:border-l-0',
+    'nth-[n+19]:nth-[-n+27]:after:border-b-[1px]',
+    'nth-[n+28]:nth-[-n+36]:after:border-t-[1px]',
+    'nth-[n+46]:nth-[-n+54]:after:border-b-[1px]',
+    'nth-[n+55]:nth-[-n+63]:after:border-t-[1px]',
     'select-none',
   );
 
   function handleClick() {
-    handleFocus(cell);
+    setFocusedCell(cell);
   }
 
   return (
     <div className={className} onClick={handleClick}>
-      {showCandidates && <Candidates candidateMask={candidates} />}
+      {showCandidates && <Candidates candidateMask={candidates} isFocusedCell={isFocusedCell} />}
       {value && (
         <div className="relative w-full">
           <Number>{value}</Number>
           {settings.showConflictHighlighting && hasConflict && (
-            <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-600" />
+            <div className="absolute right-[15%] bottom-[15%] h-[15%] w-[15%] rounded-full bg-red-500" />
           )}
         </div>
       )}

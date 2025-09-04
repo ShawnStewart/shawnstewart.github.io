@@ -1,21 +1,26 @@
 import { useEffect } from 'react';
 
 import { useSudokuContext } from '../SudokuContext';
+import { useHandleValueInput } from './useHandleValueInput';
 
 export function useKeyboardControls() {
-  const { state, setCellValue, setFocusedCell } = useSudokuContext();
+  const { state, setFocusedCell, toggleInputMode } = useSudokuContext();
+  const handleValueInput = useHandleValueInput();
 
+  // Input handler
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       const { column = 0, row = 0 } = state.focusedCell ?? {};
 
+      const digit = e.code.startsWith('Digit') && parseInt(e.code.replace('Digit', ''), 10);
+
       // Number entry
-      if (e.key >= '1' && e.key <= '9') {
-        setCellValue(Number(e.key));
+      if (digit && digit >= 1 && digit <= 9) {
+        handleValueInput(digit);
       }
       // Clear cell
       else if (e.key === 'Backspace' || e.key === 'Delete') {
-        setCellValue(null);
+        handleValueInput(null);
       }
       // Navigation
       else if (e.key === 'ArrowUp') {
@@ -33,9 +38,29 @@ export function useKeyboardControls() {
       }
     }
 
-    window.addEventListener('keydown', handleKeyDown);
+    if (!state.isSolved) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [setCellValue, setFocusedCell, state.board, state.focusedCell]);
+  }, [handleValueInput, setFocusedCell, state.board, state.focusedCell, state.isSolved]);
+
+  // Input mode toggle handler
+  useEffect(() => {
+    function handleToggleInputMode(e: KeyboardEvent) {
+      if (e.key === 'Shift' || e.key === 'Alt') {
+        toggleInputMode();
+      }
+    }
+
+    if (!state.isSolved) {
+      window.addEventListener('keydown', handleToggleInputMode);
+      window.addEventListener('keyup', handleToggleInputMode);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleToggleInputMode);
+      window.removeEventListener('keyup', handleToggleInputMode);
+    };
+  }, [state.isSolved, toggleInputMode]);
 }
