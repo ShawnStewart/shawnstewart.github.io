@@ -1,6 +1,5 @@
 import { Lightbulb } from 'lucide-react';
 import type { PropsWithChildren } from 'react';
-import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
+import { useDialogActions } from '@/hooks/useDialogActions';
 
 import { ControlButton } from './Controls';
 import { useSudokuContext } from './SudokuContext';
@@ -21,15 +21,15 @@ export function SettingsModal() {
     state: { isSolved },
   } = useSudokuContext();
 
-  const [isOpen, setIsOpen] = useState(false);
+  const { close, isOpen, toggle } = useDialogActions();
 
   return (
-    <Dialog modal={true} onOpenChange={setIsOpen} open={isOpen}>
+    <Dialog modal={true} onOpenChange={toggle} open={isOpen}>
       <DialogTrigger asChild>
         <ControlButton
           disabled={isSolved}
           onClick={() => {
-            setIsOpen(true);
+            toggle(true);
           }}
         >
           <Lightbulb aria-label="Help" className="md:hidden" />
@@ -40,20 +40,31 @@ export function SettingsModal() {
         <DialogHeader>
           <DialogTitle>Sudoku Helpers</DialogTitle>
         </DialogHeader>
-        <SettingsModalContent />
+        <SettingsModalContent close={close} />
       </DialogContent>
     </Dialog>
   );
 }
 
-function SettingsModalContent() {
+interface Props {
+  close: () => void;
+}
+
+function SettingsModalContent({ close }: Props) {
   const {
     checkCell,
     checkPuzzle,
+    revealCell,
+    revealPuzzle,
     state: { focusedCell },
   } = useSudokuContext();
 
   const hasFocusedCellValue = !focusedCell?.readOnly && !!focusedCell?.value;
+
+  function handleAndClose(action: () => void) {
+    action();
+    close();
+  }
 
   return (
     <>
@@ -65,14 +76,40 @@ function SettingsModalContent() {
       </div>
 
       <div className="grid grid-cols-2 gap-2">
-        <Button disabled={!hasFocusedCellValue} onClick={checkCell} variant="outline">
+        <Button
+          disabled={!hasFocusedCellValue}
+          onClick={() => {
+            handleAndClose(checkCell);
+          }}
+          variant="outline"
+        >
           Check Cell
         </Button>
-        <Button disabled={!hasFocusedCellValue} onClick={checkPuzzle} variant="outline">
+        <Button
+          disabled={!hasFocusedCellValue}
+          onClick={() => {
+            handleAndClose(checkPuzzle);
+          }}
+          variant="outline"
+        >
           Check Puzzle
         </Button>
-        <Button variant="outline">Reveal Cell</Button>
-        <Button variant="outline">Reveal Solution</Button>
+        <Button
+          onClick={() => {
+            handleAndClose(revealCell);
+          }}
+          variant="outline"
+        >
+          Reveal Cell
+        </Button>
+        <Button
+          onClick={() => {
+            handleAndClose(revealPuzzle);
+          }}
+          variant="outline"
+        >
+          Reveal Solution
+        </Button>
       </div>
     </>
   );

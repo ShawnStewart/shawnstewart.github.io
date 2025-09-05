@@ -7,6 +7,8 @@ import type { SudokuBoard, SudokuCell, SudokuState } from './types';
 type SudokuAction =
   | { type: 'CHECK_CELL' }
   | { type: 'CHECK_PUZZLE' }
+  | { type: 'REVEAL_CELL' }
+  | { type: 'REVEAL_PUZZLE' }
   | { type: 'SET_CELL'; value: number | null }
   | { type: 'SET_FOCUSED_CELL'; cell: SudokuCell | null }
   | { type: 'SET_INPUT_MODE'; inputMode: SudokuState['inputMode'] }
@@ -46,6 +48,47 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
 
       return { ...state, board: updatedBoard };
     }
+    case 'REVEAL_CELL': {
+      if (!state.focusedCell || state.focusedCell.isValidated || state.isSolved) return state;
+      const { column, row } = state.focusedCell;
+
+      const updatedCell: SudokuCell = {
+        ...state.board[row][column],
+        isInvalid: false,
+        isValidated: true,
+        value: solution[row][column],
+      };
+
+      const updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) => (rIdx === row && cIdx === column ? updatedCell : { ...cell })),
+      );
+
+      return {
+        ...state,
+        board: updatedBoard,
+        isSolved: checkIsSolvedAgainstSolution({ board: updatedBoard, solution }),
+      };
+    }
+    case 'REVEAL_PUZZLE': {
+      const updatedBoard = state.board.map((r, rIdx) =>
+        r.map((cell, cIdx) =>
+          cell.readOnly
+            ? { ...cell }
+            : {
+                ...cell,
+                isInvalid: false,
+                isValidated: true,
+                value: solution[rIdx][cIdx],
+              },
+        ),
+      );
+
+      return {
+        ...state,
+        board: updatedBoard,
+        isSolved: checkIsSolvedAgainstSolution({ board: updatedBoard, solution }),
+      };
+    }
     case 'SET_CELL': {
       if (
         !state.focusedCell ||
@@ -59,6 +102,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
 
       const updatedCell: SudokuCell = {
         ...state.board[row][column],
+        isInvalid: false,
         value: nextValue,
       };
 
@@ -104,7 +148,7 @@ export function sudokuReducer(state: SudokuState, action: SudokuAction): SudokuS
       };
     }
     case 'SET_FOCUSED_CELL': {
-      return { ...state, focusedCell: action.cell };
+      return { ...state, focusedCell: state.isSolved ? null : action.cell };
     }
     case 'SET_INPUT_MODE': {
       return { ...state, inputMode: action.inputMode };
