@@ -7,6 +7,8 @@ import type { SudokuCell, SudokuSettings, SudokuState } from './types';
 interface SudokuContextType {
   checkCell: () => void;
   checkPuzzle: () => void;
+  revealCell: () => void;
+  revealPuzzle: () => void;
   setCellValue: (value: number | null) => void;
   setFocusedCell: (cell: SudokuCell | null) => void;
   setInputMode: (mode: SudokuState['inputMode']) => void;
@@ -27,6 +29,14 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
 
   function checkPuzzle() {
     dispatch({ type: 'CHECK_PUZZLE' });
+  }
+
+  function revealCell() {
+    dispatch({ type: 'REVEAL_CELL' });
+  }
+
+  function revealPuzzle() {
+    dispatch({ type: 'REVEAL_PUZZLE' });
   }
 
   const setCellValue = (value: number | null) => {
@@ -62,6 +72,8 @@ export const SudokuProvider = ({ children }: { children: ReactNode }) => {
     () => ({
       checkCell,
       checkPuzzle,
+      revealCell,
+      revealPuzzle,
       setCellValue,
       setFocusedCell,
       setInputMode,

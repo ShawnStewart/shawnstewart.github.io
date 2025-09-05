@@ -36,7 +36,7 @@ export function Candidates({ candidateMask, isFocusedCell }: Props) {
         })}
         fontSize={65}
         key={value}
-        onClick={handleClick(value)}
+        onMouseDown={handleClick(value)}
       >
         {value}
       </Number>

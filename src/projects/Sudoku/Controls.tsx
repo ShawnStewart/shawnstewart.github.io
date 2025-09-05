@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import { cn } from '@/lib/utils';
 
 import { useHandleValueInput } from './hooks/useHandleValueInput';
 import { SettingsModal } from './SettingsModal';
@@ -18,7 +19,12 @@ export function Controls() {
   const handleValueInput = useHandleValueInput();
 
   return (
-    <div className="grid w-full grid-cols-5 gap-2 lg:max-w-1/3 lg:grid-cols-3">
+    <div
+      className={cn(
+        'grid w-full grid-cols-5 gap-2 transition-opacity duration-500 lg:max-w-1/3 lg:grid-cols-3',
+        { 'opacity-0': isSolved },
+      )}
+    >
       <div className="col-span-3">
         <InputModeToggle />
       </div>
